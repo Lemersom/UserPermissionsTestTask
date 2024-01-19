@@ -31,21 +31,21 @@ module.exports = {
     getUserResponse: async function(id) {
         const user = await userDAO.getById(id);
         
-        const {profilePermission, firstNamePermission, emailPermission} = fetchPermissions(user)
-
-        const data = {
-            user: {
-                firstname: user.firstName,
-                email: user.email
-            },
-            permissions: [
-                profilePermission, 
-                firstNamePermission, 
-                emailPermission
-            ]
-        }
-
         if(user) {
+            const {profilePermission, firstNamePermission, emailPermission} = fetchPermissions(user)
+
+            const data = {
+                user: {
+                    firstname: user.firstName,
+                    email: user.email
+                },
+                permissions: [
+                    profilePermission, 
+                    firstNamePermission, 
+                    emailPermission
+                ]
+            }
+        
             return { status: 200, data: data }
         }
         

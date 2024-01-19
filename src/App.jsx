@@ -1,33 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useContext, useState } from 'react'
+import { AppContext }  from './context/appContext'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [firstName, setFirstName] = useState("")
+
+  const context = useContext(AppContext)
+  const navigate = useNavigate()
+
+  const fetchUser = async () => {
+    setFirstName(firstName)
+    
+    try {
+      const response = await axios.get(`http://localhost:3000/user/fetch/${firstName}`)
+      
+      context.setUser(response.data)
+      console.log(response.data)
+      await fetchUserResponse(response.data)
+      
+      navigate('/user')
+    }
+    catch(err) {
+      console.log('Error fetching user: ' + err)
+    }
+  }
+
+  const fetchUserResponse = async (user) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/user/${user.id}`)
+      
+      context.setUserResponse(response.data)
+      console.log(response.data)
+    }
+    catch(err) {
+      console.log('Error fetching user: ' + err)
+    }
+  }
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <label htmlFor="firstname">First Name: </label>
+        <input type="text" id='firstname' onChange={(event) => setFirstName(event.target.value)}/>
+        <button onClick={fetchUser}>Fetch</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

@@ -10,6 +10,12 @@ router.get("/:id", async(req, res) => {
     res.status(response.status).json(response.data);
 })
 
+router.get("/fetch/:firstName", async(req, res) => {
+    const response = await userService.getUserByFirstName(req.params.firstName);
+
+    res.status(response.status).json(response.data);
+})
+
 router.put('/:id/firstName',
     userValidator.validateFirstName,
     async (req, res) => {
