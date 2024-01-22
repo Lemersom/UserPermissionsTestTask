@@ -1,6 +1,6 @@
 ## Running Locally
 
-**Prerequisites:** Ensure you have [Node.js](https://nodejs.org/) installed on your machine. Create a .env file following .env.example.
+**Prerequisites:** Ensure you have [Node.js](https://nodejs.org/) installed on your machine. Create a .env file following .env.example. Create the database.
 
 Clone the project
 
